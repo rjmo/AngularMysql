@@ -26,13 +26,26 @@ class GamesController {
         });
     }
     getOne(req, res) {
-        res.json({ text: "this is game " + req.params.id });
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const { id } = req.params;
+                const game = yield database_1.default.query("SELECT * FROM game WHERE id = ?", [id]);
+                console.log(game);
+                if (game.length > 0) {
+                    return res.json(game[0]);
+                }
+                res.status(404).json({ text: "Page not found" });
+            }
+            catch (error) {
+                console.log(error);
+            }
+        });
     }
     create(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 yield database_1.default.query("INSERT INTO game set ?", req.body);
-                res.json({ messsage: "Game saved" });
+                res.json({ message: "Game saved" });
             }
             catch (error) {
                 console.log(error);
@@ -40,10 +53,28 @@ class GamesController {
         });
     }
     delete(req, res) {
-        res.json({ text: "Deleting a game: " + +req.params.id });
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const { id } = req.params;
+                yield database_1.default.query("DELETE FROM game WHERE id = ?", [id]);
+                res.json({ message: "Game deleted" });
+            }
+            catch (error) {
+                console.log(error);
+            }
+        });
     }
     update(req, res) {
-        res.json({ text: "updating a game: " + req.params.id });
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const { id } = req.params;
+                yield database_1.default.query("UPDATE game set ? WHERE id = ?", [req.body, id]);
+                res.json({ text: "updating a game" });
+            }
+            catch (error) {
+                console.log(error);
+            }
+        });
     }
 }
 const gamesController = new GamesController();

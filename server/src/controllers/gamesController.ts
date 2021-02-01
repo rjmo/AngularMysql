@@ -10,22 +10,44 @@ class GamesController {
             console.log(error);
         }
     }
-    public getOne(req: Request, res: Response) {
-        res.json({ text: "this is game " + req.params.id });
-    }
-    public async create(req: Request, res: Response): Promise<void> {
+    public async getOne(req: Request, res: Response): Promise<any> {
         try {
-            await pool.query("INSERT INTO game set ?", req.body);
-            res.json({ messsage: "Game saved" });
+            const { id } = req.params;
+            const game = await pool.query("SELECT * FROM game WHERE id = ?", [id]);
+            console.log(game);
+            if (game.length > 0) {
+                return res.json(game[0]);
+            }
+            res.status(404).json({ text: "Page not found" });
         } catch (error) {
             console.log(error);
         }
     }
-    public delete(req: Request, res: Response) {
-        res.json({ text: "Deleting a game: " + +req.params.id });
+    public async create(req: Request, res: Response): Promise<void> {
+        try {
+            await pool.query("INSERT INTO game set ?", req.body);
+            res.json({ message: "Game saved" });
+        } catch (error) {
+            console.log(error);
+        }
     }
-    public update(req: Request, res: Response) {
-        res.json({ text: "updating a game: " + req.params.id });
+    public async delete(req: Request, res: Response): Promise<void> {
+        try {
+            const { id } = req.params;
+            await pool.query("DELETE FROM game WHERE id = ?", [id]);
+            res.json({ message: "Game deleted" });
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    public async update(req: Request, res: Response): Promise<void> {
+        try {
+            const { id } = req.params;
+            await pool.query("UPDATE game set ? WHERE id = ?", [req.body, id]);
+            res.json({ text: "updating a game" });
+        } catch (error) { 
+            console.log(error);
+        }
     }
 }
 
