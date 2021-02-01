@@ -9,6 +9,6 @@ import { createPool } from "promise-mysql";
         pool.releaseConnection(connection);
         console.log('DB is  connected');
 
-    })
+    });
 
 export default pool;

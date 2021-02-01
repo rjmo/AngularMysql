@@ -7,7 +7,12 @@ class  GamesRoutes {
         this.config();
    }
    config(): void {
-       this.router.get('/', gamesController.index);
+       this.router.get('/', gamesController.list);
+       this.router.post('/', gamesController.create);
+       this.router.delete('/:id', gamesController.delete);
+       this.router.put('/:id', gamesController.update);
+       this.router.get('/:id', gamesController.getOne);
+
    }
 }
 
