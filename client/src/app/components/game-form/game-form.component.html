@@ -1,1 +1,20 @@
-<p>game-form works!</p>
+<div class="container">
+
+  <form class="row g-3">
+    <div class="col-md-6">
+      <label for="inputEmail4" class="form-label">Title</label>
+      <input type="text" class="form-control" name="title" [(ngModel)]="game.title" id="inputEmail4">
+    </div>
+    <div class="col-md-6">
+      <label for="inputPassword4" class="form-label">Image</label>
+      <input type="text" class="form-control" name="image" [(ngModel)]="game.image" id="inputPassword4">
+    </div>
+    <div class="mb-3">
+      <label for="exampleFormControlTextarea1" class="form-label">Description</label>
+      <textarea class="form-control" name="description" id="exampleFormControlTextarea1" [(ngModel)]="game.description" rows="3"></textarea>
+    </div>
+    <div class="col-md-12">
+      <button type="submit" class="btn btn-primary" (click)="saveNewGame()">Créer</button>
+    </div>
+  </form>
+</div>
